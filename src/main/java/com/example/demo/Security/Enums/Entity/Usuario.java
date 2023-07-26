@@ -3,7 +3,7 @@ package com.example.demo.Security.Enums.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.annotation.Nonnull;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,23 +12,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	private String id;
-	@Nonnull
+    private String id;
+	@NotNull
 	private String nombre;
-	@Nonnull
+	@NotNull
 	@Column(unique = true)
 	private String nombreUsuario;
-	@Nonnull
+	@NotNull
 	private String email;
-	@Nonnull
-	private String contraseña;
+	@NotNull
+	private String password;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
 	private Set<Rol> roles = new HashSet<>();
@@ -37,11 +37,11 @@ public class Usuario {
 
 	}
 
-	public Usuario(String nombre, String nombreUsuario, String email, String contraseña) {
+	public Usuario(String nombre, String nombreUsuario, String email, String password) {
 		this.nombre = nombre;
 		this.nombreUsuario = nombreUsuario;
 		this.email = email;
-		this.contraseña = contraseña;
+		this.password = password;
 
 	}
 
@@ -77,12 +77,12 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String password) {
+		this.password= password;
 	}
 
 	public Set<Rol> getRoles() {

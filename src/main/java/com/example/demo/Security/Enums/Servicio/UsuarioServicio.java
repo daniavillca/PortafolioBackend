@@ -11,12 +11,11 @@ import com.example.demo.Security.Enums.Repository.iUsuarioRepository;
 
 @Service
 @Transactional
-
 public class UsuarioServicio {
 	@Autowired
 	iUsuarioRepository iusuiarioRepository;
 
-	public Optional<Usuario> getByNombOptional(String nombreUsuario) {
+	public Optional<Usuario> getByNombreUsuario(String nombreUsuario) {
 		return iusuiarioRepository.findByNombreUsuario(nombreUsuario);
 	}
 
@@ -32,9 +31,5 @@ public class UsuarioServicio {
 		iusuiarioRepository.save(usuario);
 	}
 
-	public Object getByNombreUsuario(String nombreUsuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
+																																												

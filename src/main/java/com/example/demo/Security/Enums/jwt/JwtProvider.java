@@ -1,12 +1,11 @@
 package com.example.demo.Security.Enums.jwt;
 
-import java.security.Principal;
 import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+
 import org.springframework.stereotype.Component;
 
 import com.example.demo.Security.Enums.Entity.UsuarioPrincipal;
@@ -21,15 +20,16 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Component
 public class JwtProvider {
 	private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
 	@Value("${jwt.secret}")
 	private String secret;
+
 	@Value("${jwt.expiration}")
 	private int expiration;
 
-	public String generateToken(Authentication authentication) {
-
-		UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) authentication.getPincipal();
-		return Jwts.builder().setSubject(usuarioPrincipal.getUsarname()).setIssuedAt(new Date())
+	public String generateToken(org.springframework.security.core.Authentication authentication) {
+		UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) authentication.getPrincipal();
+		return Jwts.builder().setSubject(usuarioPrincipal.getUsername()).setIssuedAt(new Date())
 				.setExpiration(new Date(new Date().getTime() + expiration * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
 

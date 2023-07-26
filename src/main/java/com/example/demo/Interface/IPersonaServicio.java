@@ -15,9 +15,22 @@ public interface IPersonaServicio {
 
 	// eliminar un objeto pero lo buscamos x id
 
-	public void deletePersona(String id);
+	public void deletePersona(long id);
 
 	// Buscar un persona por id
 
-	public Persona findPersona(String id);
+	public Persona findPersona(long id);
+
+	public boolean existsByNombre(String nombre);
+
+	public Object getByNombre(String nombre);
+
+	public boolean existsById(String id);
+
+	public Object getOne(String id);
+
+	public List<Persona> list();
+
+	public void save(Persona persona);
+
 }

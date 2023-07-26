@@ -16,58 +16,34 @@ public class JwtDto {
 		this.authorities = authorities;
 	}
 
-	/**
-	 * @return the token
-	 */
 	public String getToken() {
 		return token;
 	}
 
-	/**
-	 * @param token the token to set
-	 */
 	public void setToken(String token) {
 		this.token = token;
 	}
 
-	/**
-	 * @return the bearer
-	 */
 	public String getBearer() {
 		return bearer;
 	}
 
-	/**
-	 * @param bearer the bearer to set
-	 */
 	public void setBearer(String bearer) {
 		this.bearer = bearer;
 	}
 
-	/**
-	 * @return the nombreUsuario
-	 */
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
 
-	/**
-	 * @param nombreUsuario the nombreUsuario to set
-	 */
 	public void setNombreUsuario(String nombreUsuario) {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	/**
-	 * @return the authorities
-	 */
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
 
-	/**
-	 * @param authorities the authorities to set
-	 */
 	public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
 		this.authorities = authorities;
 	}

@@ -1,47 +1,68 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Habilidades {
-	private String id;
-	private String tipoHabilidad;
-	private String porcentaje;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String nombre;;
+	private int porcentaje;
 	private Persona persona;
 
-	public Habilidades(String id, String tipoHabilidad, String porcentaje) {
+	public Habilidades(String string, int i) {
+
+	}
+
+	public Habilidades(int id, String nombre, int porcentaje, Persona persona) {
+		super();
 		this.id = id;
-		this.tipoHabilidad = tipoHabilidad;
+		this.nombre = nombre;
 		this.porcentaje = porcentaje;
+		this.persona = persona;
 	}
 
-	public String getId() {
-		return id;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getTipoHabilidad() {
-		return tipoHabilidad;
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setTipoHabilidad(String tipoHabilidad) {
-		this.tipoHabilidad = tipoHabilidad;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getPorcentaje() {
-		return porcentaje;
+	public int getPorcentaje() {
+		return this.porcentaje;
 	}
 
-	public void setPorcentaje(String porcentaje) {
+	public void setPorcentaje(int porcentaje) {
 		this.porcentaje = porcentaje;
 	}
 
 	public Persona getPersona() {
-		return persona;
+		return this.persona;
 	}
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public static List<Habilidades> list() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -21,9 +21,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 	private final static Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
 	@Autowired
-	JwtProvider jwtProvider;
+	private JwtProvider jwtProvider;
+
 	@Autowired
-	UserDetailsImpl userDetailsServiceImpl;
+	private UserDetailsImpl userDetailsServiceImpl;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

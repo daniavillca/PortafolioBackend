@@ -14,6 +14,8 @@ import com.example.demo.repository.ReExperienciaLaboral;
 @Transactional
 public class SeExperienciaLaboral {
 	@Autowired
+	
+
 	ReExperienciaLaboral reExperienciaLaboral;
 
 	public List<ExperienciaLaboral> list() {
@@ -37,7 +39,7 @@ public class SeExperienciaLaboral {
 		reExperienciaLaboral.deleteById(id);
 	}
 
-	public boolean existsById(String id) {
+	public  boolean existsById(String id) {
 		return reExperienciaLaboral.existsById(id);
 
 	}

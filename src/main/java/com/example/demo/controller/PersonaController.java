@@ -4,58 +4,69 @@ import com.example.demo.entity.Persona;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Interface.IPersonaServicio;
+import com.example.demo.Dto.dtoPersona;
+import com.example.demo.Security.Enums.Controller.Mensaje;
+import com.example.demo.Servicio.ImpPersonaServicio;
 
 @RestController
+@RequestMapping("/persona")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PersonaController {
 
 	@Autowired
-	IPersonaServicio ipersonaServicio;
+	ImpPersonaServicio personaServicio;
 
-	@GetMapping("persona/traer")
-	public List<Persona> getPersona() {
-		return ipersonaServicio.getPersona();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@GetMapping("/lista")
+	public ResponseEntity<List<Persona>> list() {
+		List<Persona> list = personaServicio.list();
+		return new ResponseEntity(list, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping("/persona/crear")
-	public String createPersona(@RequestBody Persona persona) {
-		ipersonaServicio.savePersona(persona);
-		return "la persona fue creada correctamente";
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public ResponseEntity<Persona> getById(@PathVariable("id") String id) {
+		if (!personaServicio.existsById(id)) {
+			return new ResponseEntity(new Mensaje("No existe el Id"), HttpStatus.BAD_REQUEST);
+		}
+		Persona persona = personaServicio.getOne(id).get();
+		return new ResponseEntity(persona, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/persona/borrar/{id}")
-	public String deletePersona(@PathVariable String id) {
-		ipersonaServicio.deletePersona(id);
-		return "la persona fue eliminada correctamente";
-	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@PutMapping("/update/{id}")
+	public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody dtoPersona dtopersona) {
+		if (!personaServicio.existsById(id)) {
+			return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
+		}
+		if (personaServicio.existsByNombre(dtopersona.getNombre())
+				&& personaServicio.getByNombre(dtopersona.getNombre()).get().getId() != id) {
+			return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
+		}
+		if (StringUtils.isBlank(dtopersona.getNombre())) {
+			return new ResponseEntity(new Mensaje("El campo no puede estar vacio"), HttpStatus.BAD_REQUEST);
+		}
 
-	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/persona/editar/{id}")
-	public Persona editPersona(@PathVariable String id, @RequestParam("nombre") String nuevoNombre,
-			@RequestParam("apellido") String nuevoApellido, @RequestParam("Telefono") String nuevoTelefono) {
+		Persona persona = personaServicio.getOne(id).get();
 
-		Persona persona = ipersonaServicio.findPersona(id);
+		persona.setNombre(dtopersona.getNombre());
+		persona.setApellido(dtopersona.getApellido());
+		persona.setDescripcion(dtopersona.getDescripcion());
 
-		persona.setNombre(nuevoNombre);
-		persona.setApellido(nuevoApellido);
-		persona.setTelefono(nuevoTelefono);
-		ipersonaServicio.savePersona(persona);
-		return persona;
+		personaServicio.save(persona);
+
+		return new ResponseEntity(new Mensaje("Persona actualizada"), HttpStatus.OK);
 	}
 
 }

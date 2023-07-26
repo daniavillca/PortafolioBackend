@@ -2,18 +2,32 @@ package com.example.demo.entity;
 
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
+@Entity
 public class Persona {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
+	@NotNull
+	@Size(min = 1, max = 50, message = "no cumple con la longitud")
 	private String nombre;
+	@NotNull
+	@Size(min = 1, message = "no cumple con la longitud")
 	private String apellido;
 	private String dni;
 	private String direccion;
 	private String telefono;
 	private String correo;
-	private String sobre_mi;
+	@NotNull
+	private String descripcion;
 	private String urlFoto;
 
 	@Temporal(TemporalType.DATE)
@@ -22,16 +36,16 @@ public class Persona {
 	public Persona() {
 	}
 
-	public Persona(String id, String nombre, String apellido, String fechaNac, String direccion, String telefono,
-			String correo, String sobre_mi, String urlFoto, String dni) {
-		this.id = id;
+	public Persona(String nombre, String apellido, String fechaNac, String direccion, String telefono, String correo,
+			String descripcion, String urlFoto, String dni) {
+
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.correo = correo;
-		this.sobre_mi = sobre_mi;
+		this.descripcion = descripcion;
 		this.urlFoto = urlFoto;
 	}
 
@@ -91,12 +105,12 @@ public class Persona {
 		this.correo = correo;
 	}
 
-	public String getSobre_mi() {
-		return sobre_mi;
+	public String getDescripcion() {
+		return descripcion;
 	}
 
-	public void setSobre_mi(String sobre_mi) {
-		this.sobre_mi = sobre_mi;
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	public String getUrlFoto() {

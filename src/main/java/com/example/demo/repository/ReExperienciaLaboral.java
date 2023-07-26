@@ -15,5 +15,8 @@ public interface ReExperienciaLaboral extends JpaRepository<ExperienciaLaboral, 
 
 	public Optional<ExperienciaLaboral> findById(String id);
 
-	
+	public void deleteById(String id);
+
+	public boolean existsById(String id);
+
 }

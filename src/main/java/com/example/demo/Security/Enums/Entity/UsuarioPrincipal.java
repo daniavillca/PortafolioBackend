@@ -8,18 +8,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@SuppressWarnings("serial")
 public class UsuarioPrincipal implements UserDetails {
+
 	private String nombre;
 	private String nombreUsuario;
 	private String email;
-	private String contraseña;
+	private String password;
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UsuarioPrincipal(String nombre, String nombreUsuario, String email, String contraseña,
+	public UsuarioPrincipal(String nombre, String nombreUsuario, String email, String password,
 			Collection<? extends GrantedAuthority> authorities) {
+
 		this.nombre = nombre;
 		this.nombreUsuario = nombreUsuario;
 		this.email = email;
+		this.password = password;
 		this.authorities = authorities;
 
 	}
@@ -29,16 +33,18 @@ public class UsuarioPrincipal implements UserDetails {
 				.map(rol -> new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());
 
 		return new UsuarioPrincipal(usuario.getNombre(), usuario.getNombreUsuario(), usuario.getEmail(),
-				usuario.getContraseña(), authorities);
+				usuario.getPassword(), authorities);
 	}
 
+	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	@Override
+	public String getPassword() {
+		return password;
 
 	}
 
@@ -50,36 +56,32 @@ public class UsuarioPrincipal implements UserDetails {
 		return email;
 	}
 
-	public String getUsarname() {
+	@Override
+	public String getUsername() {
 		return nombreUsuario;
 	}
 
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
+	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
+	@Override
+	public boolean isAccountNonExpired() {
+
+		return true;
+	}
+
+	@Override
 	public boolean isCredentialsNonExpired() {
+
 		return true;
 	}
 
+	@Override
 	public boolean isEnabled() {
+
 		return true;
-	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

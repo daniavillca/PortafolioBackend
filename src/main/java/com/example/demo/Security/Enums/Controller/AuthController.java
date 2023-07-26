@@ -33,8 +33,9 @@ import com.example.demo.Security.Enums.jwt.JwtProvider;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
+
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Autowired
@@ -46,10 +47,10 @@ public class AuthController {
 	@Autowired
 	JwtProvider jwtProvider;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
-
 			return new ResponseEntity(new Mensaje("Campos mal puestos o email invalido"), HttpStatus.BAD_REQUEST);
 
 		if (usuarioServicio.existsByNombreUsuario(nuevoUsuario.getNombreUsuario()))
@@ -69,10 +70,12 @@ public class AuthController {
 		if (nuevoUsuario.getRoles().contains("admin"))
 			;
 		roles.add(rolServicio.getByNombre(RolNombre.ROL_ADMIN).get());
+		usuario.setRoles(roles);
 		usuarioServicio.save(usuario);
 		return new ResponseEntity(new Mensaje("Usuario guardado"), HttpStatus.CREATED);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
 	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
@@ -86,7 +89,6 @@ public class AuthController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-
 		return new ResponseEntity(jwtDto, HttpStatus.OK);
 
 	}
