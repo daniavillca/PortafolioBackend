@@ -22,7 +22,7 @@ import com.example.demo.Security.Enums.jwt.JwtTokenFilter;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MainSecurity extends WebSecurityConfiguration {
+public class MainSecurity extends WebSecurityConfigurerAdapter{
 
 	@Autowired
 	UserDetailsImpl userDetailsServicesImpl;
@@ -59,7 +59,6 @@ public class MainSecurity extends WebSecurityConfiguration {
 		return super.authenticationManagerBean();
 	}
 
-	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsServicesImpl).passwordEncoder(passwordEncoder());
 
